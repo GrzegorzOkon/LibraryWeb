@@ -1,5 +1,7 @@
 package web;
 
+import hibernate.User;
+
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 
@@ -25,5 +27,5 @@ public interface Library {
     String getInterestingFacts(String s);*/
 
     @WebMethod
-    boolean logIn(String login, String haslo);
+    User logIn(String login, String haslo);
 }

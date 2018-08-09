@@ -1,5 +1,7 @@
 package web;
 
+import hibernate.User;
+
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 
@@ -35,5 +37,7 @@ public class LibraryImpl implements Library {
         return states.getState(stateName).getInterestingFacts();
     }*/
     @WebMethod
-    public boolean logIn(String login, String haslo) { return true; }
+    public User logIn(String login, String haslo) {
+        return new User("loginSuperowy", "NazwiskoTez", "Janek", "Kochanek");
+    }
 }
