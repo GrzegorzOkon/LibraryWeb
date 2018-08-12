@@ -1,6 +1,6 @@
 package web;
 
-import hibernate.User;
+import dao.entity.User;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;
