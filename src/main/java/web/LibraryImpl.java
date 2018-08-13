@@ -1,10 +1,11 @@
 package web;
 
 import dao.entity.User;
-import dao.service.RepositorySingleton;
+import manager.Manager;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;
+import javax.xml.ws.WebFault;
 
 @WebService
 public class LibraryImpl implements Library {
@@ -38,16 +39,21 @@ public class LibraryImpl implements Library {
         return states.getState(stateName).getInterestingFacts();
     }*/
     @WebMethod
-    public User logIn(String login, String password) {
-        User user = null;
+    public User logIn(String login, String password) throws WrongUserOrPasswordException
+    {
+        User user = Manager.getUserFromRepository(login);
 
-        try {
-            user = RepositorySingleton.getInstance().findUser(login);
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        if (user == null) {
+            throw new WrongUserOrPasswordException();
+        } else {
+            if (Manager.verifyPassword(password, user) == false) {
+                throw new WrongUserOrPasswordException();
+            }
         }
 
         return user;
-        //return Manager.checkLoginAndPassword(login, password);
     }
+
+    @WebFault
+    public class WrongUserOrPasswordException extends RuntimeException {}
 }
