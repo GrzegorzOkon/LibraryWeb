@@ -1,9 +1,13 @@
 package dao.service;
 
+import dao.entity.Book;
 import dao.entity.User;
 import org.hibernate.*;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class RepositorySingleton {
     //private static final String SELECT_WYSTAWIONAWERSJA_IN_VERSION = "SELECT w FROM WystawionaWersja w";
@@ -13,7 +17,6 @@ public class RepositorySingleton {
     private static RepositorySingleton repository;
 
     private static SessionFactory factory;
-    //private EntityManager menedzerEncji;
 
     private RepositorySingleton() {
         try {
@@ -54,6 +57,79 @@ public class RepositorySingleton {
         }
 
         return (User)result;
+    }
+
+    public List<Book> searchByTitle(String title) throws Exception {
+        Session session = factory.openSession();
+        Transaction tx = null;
+        List<Book> result = null;
+
+        try {
+            tx = session.beginTransaction();
+
+            String hql = "FROM Book B WHERE B.title = :book_title";
+            Query query = session.createQuery(hql);
+            query.setParameter("book_title", title);
+            result = query.list();
+
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+
+        return result;
+    }
+
+    public List<Book> searchByAuthor(String author) throws Exception {
+        Session session = factory.openSession();
+        Transaction tx = null;
+        List<Book> result = null;
+
+        try {
+            tx = session.beginTransaction();
+
+            String hql = "FROM Book B WHERE B.author = :book_author";
+            Query query = session.createQuery(hql);
+            query.setParameter("book_author", author);
+            result = query.list();
+
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+
+        return result;
+    }
+
+    public List<Book> searchByTitleAndAuthor(String title, String author) throws Exception {
+        Session session = factory.openSession();
+        Transaction tx = null;
+        List<Book> result = null;
+
+        try {
+            tx = session.beginTransaction();
+
+            String hql = "FROM Book B WHERE B.title = :book_title AND B.author = :book_author";
+            Query query = session.createQuery(hql);
+            query.setParameter("book_title", title);
+            query.setParameter("book_author", author);
+            result = query.list();
+
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+
+        return result;
     }
 
     /*public void rozpocznijTransakcjê() {

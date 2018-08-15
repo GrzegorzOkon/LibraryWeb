@@ -1,31 +1,17 @@
 package web;
 
+import dao.entity.Book;
 import dao.entity.User;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;
+import java.util.List;
 
 @WebService
 public interface Library {
-
-    /*@WebMethod
-    String getCapital(String s);
-
-    @WebMethod
-    String getLanguages(String s);
-
-    @WebMethod
-    String getAirports(String s);
-
-    @WebMethod
-    int getDistricts(String s);
-
-    @WebMethod
-    String getPlacesToVisit(String s);
-
-    @WebMethod
-    String getInterestingFacts(String s);*/
-
     @WebMethod
     User logIn(String login, String haslo);
+
+    @WebMethod
+    List<Book> search(String title, String author);
 }

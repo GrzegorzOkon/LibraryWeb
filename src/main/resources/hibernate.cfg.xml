@@ -25,6 +25,7 @@
             root
         </property>
 
+        <mapping class="dao.entity.Book"/>
         <mapping class="dao.entity.User"/>
     </session-factory>
 </hibernate-configuration>
