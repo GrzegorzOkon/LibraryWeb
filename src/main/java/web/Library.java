@@ -14,4 +14,7 @@ public interface Library {
 
     @WebMethod
     List<Book> search(String title, String author);
+
+    @WebMethod
+    List<Book> showRentals(String login);
 }

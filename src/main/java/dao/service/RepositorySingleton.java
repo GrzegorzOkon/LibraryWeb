@@ -6,14 +6,9 @@ import org.hibernate.*;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class RepositorySingleton {
-    //private static final String SELECT_WYSTAWIONAWERSJA_IN_VERSION = "SELECT w FROM WystawionaWersja w";
-
-    //private static final String INSERT_RAPORT_IN_RAPORTS = "INSERT INTO raports (date, user, raport) VALUES(?, ?, ?)";
-
     private static RepositorySingleton repository;
 
     private static SessionFactory factory;
@@ -132,19 +127,27 @@ public class RepositorySingleton {
         return result;
     }
 
-    /*public void rozpocznijTransakcjê() {
-        menedzerEncji.getTransaction().begin();
-    }*/
+    public List<Book> showRentals(String login) throws Exception {
+        Session session = factory.openSession();
+        Transaction tx = null;
+        List<Book> result = null;
 
-    /*public void zamknijTransakcjê() {
-        menedzerEncji.getTransaction().commit();
-    }*/
+        try {
+            tx = session.beginTransaction();
 
-    /*public void insertInReports(String data, String u¿ytkownik, String raport) {
-        Query query = menedzerEncji.createNativeQuery("INSERT INTO raports (date, user, raport) VALUES(?, ?, ?)");
-        query.setParameter(1, data);
-        query.setParameter(2, u¿ytkownik);
-        query.setParameter(3, "RAPORT: " + raport);
-        query.executeUpdate();
-    }*/
+            String sql = "select b.* from books b, user u, rentals r where b.id = r.book_id and r.user_login = u.login and u.login = :user_login";
+            Query query = session.createSQLQuery(sql).addEntity(Book.class).setParameter("user_login", login);
+            result = query.list();
+
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+
+        System.out.println(result.toString());
+        return result;
+    }
 }
