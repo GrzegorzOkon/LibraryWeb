@@ -147,7 +147,29 @@ public class RepositorySingleton {
             session.close();
         }
 
-        System.out.println(result.toString());
+        return result;
+    }
+
+    public List<Book> showReservations(String login) throws Exception {
+        Session session = factory.openSession();
+        Transaction tx = null;
+        List<Book> result = null;
+
+        try {
+            tx = session.beginTransaction();
+
+            String sql = "select b.* from books b, user u, reservations r where b.id = r.book_id and r.user_login = u.login and u.login = :user_login";
+            Query query = session.createSQLQuery(sql).addEntity(Book.class).setParameter("user_login", login);
+            result = query.list();
+
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+
         return result;
     }
 }

@@ -17,4 +17,7 @@ public interface Library {
 
     @WebMethod
     List<Book> showRentals(String login);
+
+    @WebMethod
+    List<Book> showReservations(String login);
 }

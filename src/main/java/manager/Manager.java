@@ -49,6 +49,18 @@ public class Manager {
         return books;
     }
 
+    public static List<Book> showReservations(String login) {
+        List<Book> books = null;
+
+        try {
+            books = RepositorySingleton.getInstance().showReservations(login);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+
+        return books;
+    }
+
     public static boolean verifyPassword(String password, User user) {
         return password.equals(user.getPassword()) ? true : false;
     }

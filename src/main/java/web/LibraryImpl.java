@@ -37,6 +37,11 @@ public class LibraryImpl implements Library {
         return Manager.showRentals(login);
     }
 
+    @WebMethod
+    public List<Book> showReservations(String login) {
+        return Manager.showReservations(login);
+    }
+
     @WebFault
     public class WrongUserOrPasswordException extends RuntimeException {}
 }
