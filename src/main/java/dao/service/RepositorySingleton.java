@@ -172,4 +172,44 @@ public class RepositorySingleton {
 
         return result;
     }
+
+    public void addReservation(String login, int bookId) throws Exception {
+        Session session = factory.openSession();
+        Transaction tx = null;
+
+        try {
+            tx = session.beginTransaction();
+
+            String sql = "insert into reservations values(:book_id, :user_login)";
+            Query query = session.createSQLQuery(sql).setParameter("book_id", bookId).setParameter("user_login", login);
+            query.executeUpdate();
+
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+    }
+
+    public void cancelReservation(String login, int bookId) throws Exception {
+        Session session = factory.openSession();
+        Transaction tx = null;
+
+        try {
+            tx = session.beginTransaction();
+
+            String sql = "delete from reservations where book_id = :book_id AND user_login = :user_login";
+            Query query = session.createSQLQuery(sql).setParameter("book_id", bookId).setParameter("user_login", login);
+            query.executeUpdate();
+
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+    }
 }

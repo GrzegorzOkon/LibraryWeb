@@ -42,6 +42,16 @@ public class LibraryImpl implements Library {
         return Manager.showReservations(login);
     }
 
+    @WebMethod
+    public void addReservation(String login, int bookId) {
+        Manager.addReservation(login, bookId);
+    }
+
+    @WebMethod
+    public void cancelReservation(String login, int bookId) {
+        Manager.cancelReservation(login, bookId);
+    }
+
     @WebFault
     public class WrongUserOrPasswordException extends RuntimeException {}
 }

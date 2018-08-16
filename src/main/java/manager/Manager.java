@@ -61,7 +61,23 @@ public class Manager {
         return books;
     }
 
+    public static void addReservation(String login, int bookId) {
+        try {
+            RepositorySingleton.getInstance().addReservation(login, bookId);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public static boolean verifyPassword(String password, User user) {
         return password.equals(user.getPassword()) ? true : false;
+    }
+
+    public static void cancelReservation(String login, int bookId) {
+        try {
+            RepositorySingleton.getInstance().cancelReservation(login, bookId);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 }

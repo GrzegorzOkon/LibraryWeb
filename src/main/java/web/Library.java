@@ -20,4 +20,10 @@ public interface Library {
 
     @WebMethod
     List<Book> showReservations(String login);
+
+    @WebMethod
+    void addReservation(String login, int bookId);
+
+    @WebMethod
+    void cancelReservation(String login, int bookId);
 }
