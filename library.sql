@@ -47,7 +47,7 @@ BEGIN;
 
 INSERT INTO library.books
 (title, author, first_release) 
-VALUES('Gra o tron', 'Martin', '1996'), ('Sienkiewicz', 'Potop', '1886'), ('Twardoch', 'Krol', '2015');
+VALUES('Gra o tron', 'Martin', '1996'), ('Potop', 'Sienkiewicz', '1886'), ('Krol', 'Twardoch', '2015');
 COMMIT;
 
 -- ---------------------------
